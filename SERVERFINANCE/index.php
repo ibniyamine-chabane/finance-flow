@@ -5,6 +5,9 @@
 define("URL", str_replace("index.php","",(isset($_SERVER['HTTPS']) ? "https" : "http").
 "://$_SERVER[HTTP_HOST]$_SERVER[PHP_SELF]")); 
 
+require_once "controllers/front/API.controller.php";
+$apicontroller = new APIControler;
+
 try {
     if(empty($_GET['page'])) { // if the page doesnt exist 
         throw new Exception("La page n'existe pas");
@@ -20,7 +23,9 @@ try {
                     break;
                     case 'homepage': echo "données Json des donnés de l'utilisateur transaction et de son port monnaie";
                     break;
-                    case 'transaction': echo "données Json des de l'utilisateur connectée";
+                    case 'transaction': $apicontroller -> getUserTransaction() ;
+                    break;
+                    case 'transactionCategory': $apicontroller -> getTransactionByCategory("Facture");
                     break;
                     default : throw new Exception("Error Processing Request");     
                 }
